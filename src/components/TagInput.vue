@@ -16,14 +16,21 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import Vue3TagsInput from "vue3-tags-input";
-import tag from "@/assets/json/tag.json";
+import * as fs from "fs";
+
+const shortcuts = ref([]);
+
+fs.readFile("./resources/tag.json", "utf8", (err, data) => {
+  if (err) {
+    return;
+  }
+  shortcuts.value = JSON.parse(data);
+});
 
 const props = defineProps(["modelValue", "title"]);
 const emit = defineEmits(["update:modelValue"]);
-
-const shortcuts = tag;
 
 const tags = computed({
   get() {
