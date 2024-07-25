@@ -1,5 +1,5 @@
 <template>
-  <div class="area" :style="styles" :title="name"></div>
+  <div class="area" :style="styles" :title="title"></div>
 </template>
 
 <script setup>
@@ -7,10 +7,11 @@ import { computed } from "vue";
 
 const props = defineProps({
   name: { type: String, required: true },
+  description: { type: String, required: true },
   thumbnailImageUrl: { type: String, required: true },
 });
 
-const name = computed(() => props.name);
+const title = computed(() => props.name + "\n" + props.description);
 const styles = computed(() => {
   return "background-image: url('" + props.thumbnailImageUrl + "')";
 });

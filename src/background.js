@@ -1,5 +1,5 @@
 "use strict";
-import { app, protocol, BrowserWindow, ipcMain, session } from "electron";
+import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -10,6 +10,7 @@ import {
   handleChangeAvatar,
   handleTokenCheck,
 } from "./composable/useVRChatApi";
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },

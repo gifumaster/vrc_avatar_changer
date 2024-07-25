@@ -1,17 +1,23 @@
 <template>
   <div>
-    <div class="position-fixed top-0 left-0 right-0 bg-primary pa-3">
+    <div
+      class="position-fixed top-0 left-0 right-0 pa-3"
+      style="background-color: #333333"
+    >
       <tag-input v-model="searchArray" :title="tagPlaceholder" />
     </div>
     <div class="d-flex flex-wrap" style="margin-top: 120px">
       <div v-for="avatar in listArray" :key="avatar.id">
         <AvatarDetail
           v-bind:name="avatar.name"
+          v-bind:description="avatar.description"
           v-bind:thumbnail-image-url="avatar.thumbnailImageUrl"
           @click="() => openDialog(avatar.id, avatar.name)"
         />
       </div>
-      <v-btn @click="handleGetAvatar">Refresh</v-btn>
+      <v-btn @click="handleGetAvatar" color="primary"
+        >アバターリストを取得(更新)</v-btn
+      >
     </div>
 
     <AvatarChangeDialog
@@ -38,8 +44,9 @@
         </template>
         <template v-if="!firstLogin">
           <v-text-field
+            label="2段階認証(OTP)"
             v-model="auth2faNumber"
-            placeholder="2FA"
+            placeholder="000000"
           ></v-text-field>
           <v-btn @click="handleTwoFactorAuth">2FA</v-btn>
         </template>
@@ -57,7 +64,6 @@ import TagInput from "./TagInput.vue";
 import { ipcRenderer } from "electron";
 import AvatarChangeDialog from "./AvatarChangeDialog.vue";
 import LoginDialog from "./LoginDialog.vue";
-import * as fs from "fs";
 
 const auth2faNumber = ref("");
 const authToken = ref("");
@@ -72,22 +78,20 @@ const openLoginDialog = ref(false);
 const firstLogin = ref(true);
 
 const init = async () => {
-  fs.readFile("./resources/auth.txt", "utf8", (err, data) => {
-    if (err) {
-      console.log(err);
-      openLoginDialog.value = true;
-      return;
-    }
-    authToken.value = data;
-    handleTokenCheck();
-  });
-  fs.readFile("./resources/avatarList.txt", "utf8", (err, data) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    list.value = JSON.parse(data);
-  });
+  const authCookie = localStorage.getItem("authCookie");
+  if (authCookie === null) {
+    openLoginDialog.value = true;
+    return;
+  }
+  authToken.value = authCookie;
+  handleTokenCheck();
+
+  const avatarList = localStorage.getItem("avatarList");
+  if (avatarList === null) {
+    list.value = [];
+    return;
+  }
+  list.value = JSON.parse(avatarList);
 };
 
 const openDialog = (id, name) => {
@@ -115,11 +119,7 @@ const handleLogin = async () => {
     firstLogin.value = false;
   }
 
-  fs.writeFileSync("./resource/auth.txt", result.authToken, (err) => {
-    if (err) {
-      alert(err);
-    }
-  });
+  localStorage.setItem("authCookie", result.authToken);
 };
 
 const handleTwoFactorAuth = async () => {
@@ -177,15 +177,7 @@ const handleGetAvatar = async () => {
     }
   }
 
-  fs.writeFileSync(
-    "./resources/avatarList.txt",
-    JSON.stringify(list.value),
-    (err) => {
-      if (err) {
-        alert(err);
-      }
-    }
-  );
+  localStorage.setItem("avatarList", JSON.stringify(list.value));
 };
 
 const handelAvatarChange = async () => {
