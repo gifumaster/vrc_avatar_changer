@@ -15,7 +15,7 @@
           @click="() => openDialog(avatar.id, avatar.name)"
         />
       </div>
-      <v-btn @click="handleGetAvatar" color="primary"
+      <v-btn @click="handleGetAvatar" color="primary" :disabled="disableFetch"
         >アバターリストを取得(更新)</v-btn
       >
     </div>
@@ -76,6 +76,7 @@ const userName = ref("");
 const password = ref("");
 const openLoginDialog = ref(false);
 const firstLogin = ref(true);
+const disableFetch = ref(false);
 
 const init = async () => {
   const authCookie = localStorage.getItem("authCookie");
@@ -156,10 +157,11 @@ const handleTokenCheck = async () => {
 
 const handleGetAvatar = async () => {
   //結果が60未満になるまでループさせる。時間はすこしあける
-  //最大でも10回まで
+  //最大でも16回まで
   list.value = [];
+  disableFetch.value = true;
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 16; i++) {
     //
     const result = await ipcRenderer.invoke("GetAvatarList", {
       authToken: authToken.value,
@@ -175,10 +177,12 @@ const handleGetAvatar = async () => {
     if (result.length < 60) {
       break;
     }
+    await sleep(1000);
   }
-
   localStorage.setItem("avatarList", JSON.stringify(list.value));
+  disableFetch.value = false;
 };
+const sleep = (time) => new Promise((r) => setTimeout(r, time));
 
 const handelAvatarChange = async () => {
   await ipcRenderer.invoke("ChangeAvatar", {

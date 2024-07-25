@@ -142,7 +142,6 @@ export async function handleGetAvatarList(_event, dto) {
 
   const data = await response.json();
 
-  sleep(100);
   return data;
 }
 
