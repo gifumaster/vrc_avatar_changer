@@ -21,9 +21,17 @@ import Vue3TagsInput from "vue3-tags-input";
 import * as fs from "fs";
 
 const shortcuts = ref([]);
+const defaultTags = {
+  春: "Spring",
+  夏: "Summer",
+  秋: "Fall",
+  冬: "Winter",
+};
 
 fs.readFile("./resources/tag.json", "utf8", (err, data) => {
   if (err) {
+    fs.writeFileSync("./resources/tag.json", JSON.stringify(defaultTags));
+    shortcuts.value = defaultTags;
     return;
   }
   shortcuts.value = JSON.parse(data);
