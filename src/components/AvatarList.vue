@@ -4,7 +4,27 @@
       class="position-fixed top-0 left-0 right-0 pa-3"
       style="background-color: #333333"
     >
-      <tag-input v-model="searchArray" :title="tagPlaceholder" />
+      <div class="d-flex">
+        <v-btn
+          @click="() => (openTagEditorDialog = true)"
+          color="primary"
+          class="mr-3"
+          :disabled="disableFetch"
+          density="compact"
+          >タグを編集</v-btn
+        >
+        <v-btn
+          @click="handleGetAvatar"
+          color="primary"
+          class="mr-3"
+          :disabled="disableFetch"
+          density="compact"
+          >アバターリストを取得(更新)</v-btn
+        >
+        <span style="color: white">{{ tagPlaceholder }}</span>
+      </div>
+
+      <tag-input v-model="searchArray" />
     </div>
     <div class="d-flex flex-wrap" style="margin-top: 120px">
       <div v-for="avatar in listArray" :key="avatar.id">
@@ -15,9 +35,6 @@
           @click="() => openDialog(avatar.id, avatar.name)"
         />
       </div>
-      <v-btn @click="handleGetAvatar" color="primary" :disabled="disableFetch"
-        >アバターリストを取得(更新)</v-btn
-      >
     </div>
 
     <AvatarChangeDialog
@@ -53,6 +70,15 @@
         {{ authToken }}
       </div>
     </LoginDialog>
+
+    <TagEditorDialog v-model="openTagEditorDialog">
+      <div
+        class="position-fixed bottom-0 left-0 right-0 pa-3 w-100"
+        style="background-color: white"
+      >
+        <TagEditor />
+      </div>
+    </TagEditorDialog>
   </div>
 </template>
 
@@ -64,6 +90,8 @@ import TagInput from "./TagInput.vue";
 import { ipcRenderer } from "electron";
 import AvatarChangeDialog from "./AvatarChangeDialog.vue";
 import LoginDialog from "./LoginDialog.vue";
+import TagEditor from "./TagEditor.vue";
+import TagEditorDialog from "./TagEditorDialog.vue";
 
 const auth2faNumber = ref("");
 const authToken = ref("");
@@ -75,6 +103,7 @@ const searchArray = ref([]);
 const userName = ref("");
 const password = ref("");
 const openLoginDialog = ref(false);
+const openTagEditorDialog = ref(false);
 const firstLogin = ref(true);
 const disableFetch = ref(false);
 
