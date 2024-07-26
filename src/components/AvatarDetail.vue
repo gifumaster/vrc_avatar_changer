@@ -1,5 +1,5 @@
 <template>
-  <div class="area" :style="styles" :title="title"></div>
+  <div class="area slideIn" :style="styles" :title="title"></div>
 </template>
 
 <script setup>
@@ -27,6 +27,13 @@ const styles = computed(() => {
   background-size: 100%;
   border-radius: 5px;
   transition: background-size 0.2s;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .area:hover {

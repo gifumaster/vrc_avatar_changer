@@ -81,7 +81,7 @@
 
 <script setup>
 // import list from "@/assets/json/avatar.json";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import AvatarDetail from "./AvatarDetail.vue";
 import TagInput from "./TagInput.vue";
 import { ipcRenderer } from "electron";
@@ -185,6 +185,7 @@ const handleGetAvatar = async () => {
   //結果が60未満になるまでループさせる。時間はすこしあける
   //最大でも16回まで
   list.value = [];
+  let temp = [];
   disableFetch.value = true;
 
   for (let i = 0; i < 16; i++) {
@@ -198,14 +199,15 @@ const handleGetAvatar = async () => {
       console.info(result);
       return;
     }
-    list.value = list.value.concat(result);
+    temp = temp.concat(result);
 
     if (result.length < 60) {
       break;
     }
-    await sleep(1000);
+    await sleep(300);
   }
-  localStorage.setItem("avatarList", JSON.stringify(list.value));
+  localStorage.setItem("avatarList", JSON.stringify(temp));
+  list.value = temp;
   disableFetch.value = false;
 };
 const sleep = (time) => new Promise((r) => setTimeout(r, time));
@@ -249,6 +251,12 @@ const tagPlaceholder = computed(() => {
   return (
     list.value.length + "件中のうち" + listArray.value.length + "件を表示中"
   );
+});
+
+watch(openTagEditorDialog, async (newValue, oldValue) => {
+  if (newValue === false && oldValue === true) {
+    location.reload();
+  }
 });
 
 init();
