@@ -72,10 +72,7 @@
     </LoginDialog>
 
     <TagEditorDialog v-model="openTagEditorDialog">
-      <div
-        class="position-fixed bottom-0 left-0 right-0 pa-3 w-100"
-        style="background-color: white"
-      >
+      <div style="background-color: white">
         <TagEditor />
       </div>
     </TagEditorDialog>

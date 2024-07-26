@@ -1,32 +1,34 @@
 <!-- src/components/TagEditor.vue -->
 <template>
-  <div>
-    編集が完了したらCTRL+Rで再読み込みしてください。
-    <div class="d-flex">
-      <v-text-field
-        v-model="newTag.name"
-        placeholder="タグ名"
-        required
-        density="compact"
-        class="mx-2"
-      />
-      <v-text-field
-        v-model="newTag.searchName"
-        placeholder="検索名"
-        required
-        density="compact"
-        class="mx-2"
-      />
-      <v-btn @click="addTag" color="primary">追加</v-btn>
-    </div>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-    <ul class="d-flex flex-wrap">
-      <li v-for="(tag, index) in tags" :key="index">
-        <span>{{ tag.name }} / {{ tag.searchName }}</span>
-        <v-btn color="red" @click="removeTag(index)">削除</v-btn>
-      </li>
-    </ul>
-  </div>
+  <v-card>
+    <v-card-text>
+      編集が完了したらCTRL+Rで再読み込みしてください。
+      <div class="d-flex">
+        <v-text-field
+          v-model="newTag.name"
+          placeholder="タグ名"
+          required
+          density="compact"
+          class="mx-2"
+        />
+        <v-text-field
+          v-model="newTag.searchName"
+          placeholder="検索名"
+          required
+          density="compact"
+          class="mx-2"
+        />
+        <v-btn @click="addTag" color="primary">追加</v-btn>
+      </div>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      <ul class="d-flex flex-wrap">
+        <li v-for="(tag, index) in tags" :key="index">
+          <span>{{ tag.name }} / {{ tag.searchName }}</span>
+          <v-btn color="red" @click="removeTag(index)">削除</v-btn>
+        </li>
+      </ul>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
