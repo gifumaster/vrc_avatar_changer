@@ -15,15 +15,6 @@ HMDで利用時にデスクトップ画面から操作することを想定し�
 - VRChatAPI は公開されたサービスではないため予告なく使えなくなる可能性があります。
 - 時々、アバターを変更してもゲーム内で反映されない現象を確認しています。その場合は別のアバターにするかゲーム内から変更する必要があります。
 
-## 環境
-
-Vue + Electron  
-`npm install` した後に `npm run electron:serve`
-で開発環境が動作します。  
-`npm run electron:build` で win パッケージの作成が可能です。
-
-アンインストールはWindowsのアプリから可能です。
-
 ## ログイン情報について
 
 ログイン情報は API を利用するためのトークンを取得する為に使用します。
@@ -46,3 +37,16 @@ avatar の name / description から部分一致でフィルタリングして�
 
 
 ![image](https://github.com/user-attachments/assets/b14a1150-674e-413a-9799-35be043dcc3e)
+
+
+## 開発したい人
+
+Vue + Electron で動作してます。 
+`npm install` した後に `npm run electron:serve`
+で開発環境が動作します。  
+`npm run electron:build` で win パッケージの作成が可能です。
+
+## アンインストール
+
+アンインストールはWindowsのアプリから可能です。
+
