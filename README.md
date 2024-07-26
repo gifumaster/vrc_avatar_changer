@@ -6,6 +6,7 @@
 HMDで利用時にデスクトップ画面から操作することを想定しています。
 タグフィルタによる絞り込みによって高速で目当てのアバターを探せるようにしています。
 
+動画(Youtube)  
 [![](https://img.youtube.com/vi/LPBFArKa-dY/0.jpg)](https://www.youtube.com/watch?v=LPBFArKa-dY)
 
 ## 注意事項
