@@ -50,8 +50,8 @@ export default {
         errorMessage.value = "項目を埋めてください";
         return;
       }
-      if (newTag.value.name.length > 5) {
-        errorMessage.value = "項目名は5文字以下";
+      if (newTag.value.name.length > 10) {
+        errorMessage.value = "項目名は10文字以下";
         return;
       }
 
