@@ -67,7 +67,6 @@
           ></v-text-field>
           <v-btn @click="handleTwoFactorAuth">2FA</v-btn>
         </template>
-        {{ authToken }}
       </div>
     </LoginDialog>
 
