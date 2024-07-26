@@ -1,7 +1,7 @@
 <!-- src/components/TagEditor.vue -->
 <template>
   <v-card>
-    <v-card-text>
+    <v-card-text style="height: 500px; overflow-y: scroll">
       編集が完了したらCTRL+Rで再読み込みしてください。
       <div class="d-flex">
         <v-text-field
