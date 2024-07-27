@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <div
-      class="position-fixed top-0 left-0 right-0 pa-3"
-      style="background-color: #333333"
-    >
+  <div class="container">
+    <div style="background-color: #333333; padding: 10px">
       <div class="d-flex">
         <v-btn
           @click="() => (openTagEditorDialog = true)"
@@ -21,12 +18,19 @@
           density="compact"
           >アバターリストを取得(更新)</v-btn
         >
-        <span style="color: white">{{ tagPlaceholder }}</span>
+        <span style="color: white; white-space: nowrap">{{
+          tagPlaceholder
+        }}</span>
       </div>
 
-      <tag-input v-model="searchArray" />
+      <div style="max-height: 300px; overflow-y: scroll">
+        <tag-input v-model="searchArray" :key="version" />
+      </div>
     </div>
-    <div class="d-flex flex-wrap" style="margin-top: 120px">
+    <div
+      class="d-flex flex-wrap"
+      style="flex: 1; overflow-y: scroll; margin-top: 5px; margin-left: 5px"
+    >
       <div v-if="disableFetch" class="mx-auto">
         <v-progress-circular
           size="64"
@@ -112,6 +116,7 @@ const openLoginDialog = ref(false);
 const openTagEditorDialog = ref(false);
 const firstLogin = ref(true);
 const disableFetch = ref(false);
+const version = ref(0);
 
 const init = async () => {
   const authCookie = localStorage.getItem("authCookie");
@@ -266,7 +271,8 @@ const tagPlaceholder = computed(() => {
 
 watch(openTagEditorDialog, async (newValue, oldValue) => {
   if (newValue === false && oldValue === true) {
-    location.reload();
+    version.value += 1;
+    //location.reload();
   }
 });
 
@@ -274,6 +280,13 @@ init();
 </script>
 
 <style scope>
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
 .avatar-grid {
   padding: 0;
 }
