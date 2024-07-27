@@ -5,6 +5,15 @@
         <v-card-title class="text-h5 grey lighten-2"> </v-card-title>
 
         <v-card-text>
+          <v-img max-width="450px" aspect-ratio="4/3" cover :src="avatarImage">
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row> </template
+          ></v-img>
           アバター「{{ avatarName }}」に変更しますか？
         </v-card-text>
 
@@ -22,7 +31,12 @@
 <script setup>
 import { computed } from "vue";
 
-const props = defineProps(["modelValue", "changeAvatar", "avatarName"]);
+const props = defineProps([
+  "modelValue",
+  "changeAvatar",
+  "avatarName",
+  "avatarImage",
+]);
 const emit = defineEmits(["update:modelValue"]);
 
 const open = computed({

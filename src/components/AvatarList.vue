@@ -32,7 +32,7 @@
           v-bind:name="avatar.name"
           v-bind:description="avatar.description"
           v-bind:thumbnail-image-url="avatar.thumbnailImageUrl"
-          @click="() => openDialog(avatar.id, avatar.name)"
+          @click="() => openDialog(avatar.id, avatar.name, avatar.imageUrl)"
         />
       </div>
     </div>
@@ -40,6 +40,7 @@
     <AvatarChangeDialog
       v-model="dialog"
       :avatar-name="avatarName"
+      :avatar-image="avatarImage"
       :change-avatar="handelAvatarChange"
     ></AvatarChangeDialog>
     <LoginDialog v-model="openLoginDialog">
@@ -95,6 +96,7 @@ const list = ref([]);
 const dialog = ref(false);
 const avatarId = ref("");
 const avatarName = ref("");
+const avatarImage = ref("");
 const searchArray = ref([]);
 const userName = ref("");
 const password = ref("");
@@ -120,9 +122,10 @@ const init = async () => {
   list.value = JSON.parse(avatarList);
 };
 
-const openDialog = (id, name) => {
+const openDialog = (id, name, imageUrl) => {
   avatarId.value = id;
   avatarName.value = name;
+  avatarImage.value = imageUrl;
   dialog.value = true;
 };
 
@@ -238,6 +241,7 @@ const filter = (list) => {
       id: i.id,
       thumbnailImageUrl: i.thumbnailImageUrl,
       name: i.name,
+      imageUrl: i.imageUrl,
       description: i.description,
     };
   });
