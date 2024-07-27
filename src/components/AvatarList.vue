@@ -27,6 +27,14 @@
       <tag-input v-model="searchArray" />
     </div>
     <div class="d-flex flex-wrap" style="margin-top: 120px">
+      <div v-if="disableFetch" class="mx-auto">
+        <v-progress-circular
+          size="64"
+          class="mx-auto"
+          indeterminate
+          color="primary lighten-5"
+        ></v-progress-circular>
+      </div>
       <div v-for="avatar in listArray" :key="avatar.id">
         <AvatarDetail
           v-bind:name="avatar.name"
