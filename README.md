@@ -1,4 +1,4 @@
-　# VRC_Avatar_Changer
+# VRC_Avatar_Changer
 
 ## なにこれ
 
