@@ -10,6 +10,10 @@ HMDで利用時にデスクトップ画面から操作することを想定し�
 動画(Youtube)  
 [![](https://img.youtube.com/vi/LPBFArKa-dY/0.jpg)](https://www.youtube.com/watch?v=LPBFArKa-dY)
 
+## インストール
+
+[Release](https://github.com/gifumaster/vrc_avatar_changer/releases)から最新のバージョンのインストーラーをダウンロードしてください。
+
 ## 注意事項
 
 - 自分用に作成しており、動作確認は最小限になっています。  
