@@ -1,5 +1,7 @@
 <template>
-  <div class="area slideIn" :style="styles" :title="title"></div>
+  <div class="area slideIn" :style="styles" :title="description">
+    <div>{{ name }}</div>
+  </div>
 </template>
 
 <script setup>
@@ -11,7 +13,7 @@ const props = defineProps({
   thumbnailImageUrl: { type: String, required: true },
 });
 
-const title = computed(() => props.name + "\n" + props.description);
+// const title = computed(() => props.name + "\n" + props.description);
 const styles = computed(() => {
   return "background-image: url('" + props.thumbnailImageUrl + "')";
 });
@@ -19,6 +21,7 @@ const styles = computed(() => {
 
 <style>
 .area {
+  position: relative;
   margin: 1px;
   padding: 0;
   width: 192px;
@@ -27,6 +30,29 @@ const styles = computed(() => {
   background-size: 100%;
   border-radius: 5px;
   transition: background-size 0.2s;
+}
+
+.area div {
+  font-size: 0.7rem;
+  position: absolute;
+  margin-right: 5px;
+  right: 3px;
+  bottom: 3px;
+  text-overflow: ellipsis;
+  text-shadow: 1px 1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff,
+    -1px -1px 0 #fff;
+  transition: opacity 0.2s;
+  opacity: 0.2;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.area:hover div {
+  opacity: 1;
+  right: 0;
+  bottom: 0;
 }
 
 @keyframes slideIn {
