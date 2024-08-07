@@ -1,4 +1,4 @@
-　# VRC_Avatar_Changer
+# VRC_Avatar_Changer
 
 ## なにこれ
 
@@ -9,6 +9,11 @@ HMDで利用時にデスクトップ画面から操作することを想定し�
 
 動画(Youtube)  
 [![](https://img.youtube.com/vi/LPBFArKa-dY/0.jpg)](https://www.youtube.com/watch?v=LPBFArKa-dY)
+
+## インストール
+
+[Release](https://github.com/gifumaster/vrc_avatar_changer/releases)から最新のバージョンのインストーラー(`avatar-changer.Setup.*.*.**.exe`
+)をダウンロードしてください。
 
 ## 注意事項
 
