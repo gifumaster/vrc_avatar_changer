@@ -27,18 +27,23 @@
         <tag-input v-model="searchArray" :key="version" />
       </div>
     </div>
+    <div v-if="disableFetch" class="mx-auto">
+      <v-progress-circular
+        size="64"
+        class="mx-auto"
+        indeterminate
+        color="primary lighten-5"
+      ></v-progress-circular>
+    </div>
     <div
       class="d-flex flex-wrap"
-      style="flex: 1; overflow-y: scroll; margin-top: 5px; margin-left: 5px"
+      style="
+        overflow-y: scroll;
+        margin-top: 5px;
+        margin-left: 5px;
+        align-items: flex-start;
+      "
     >
-      <div v-if="disableFetch" class="mx-auto">
-        <v-progress-circular
-          size="64"
-          class="mx-auto"
-          indeterminate
-          color="primary lighten-5"
-        ></v-progress-circular>
-      </div>
       <div v-for="avatar in listArray" :key="avatar.id">
         <AvatarDetail
           v-bind:name="avatar.name"

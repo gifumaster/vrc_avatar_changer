@@ -11,8 +11,8 @@
     <template v-for="shortcut in shortcuts" :key="shortcut">
       <v-btn
         class="mt-1 mr-1"
-        @click="() => add(shortcut.searchName)"
-        :color="selected(shortcut.searchName)"
+        @click="() => add(shortcut.searchName, shortcut?.only ?? false)"
+        :color="selected(shortcut.searchName, shortcut?.only ?? false)"
         >{{ shortcut.name }}</v-btn
       >
     </template>
@@ -27,7 +27,15 @@ const shortcuts = ref([]);
 
 const loadTags = () => {
   const savedTags = localStorage.getItem("tags");
-  shortcuts.value = JSON.parse(savedTags);
+  const list = JSON.parse(savedTags);
+
+  // only:true -> falseの順でsortしなおす
+  shortcuts.value = list.sort((a, b) => {
+    if (a.only === b.only) {
+      return 0;
+    }
+    return a.only ? -1 : 1;
+  });
 };
 
 loadTags();
@@ -44,19 +52,43 @@ const tags = computed({
   },
 });
 
-const add = (value) => {
-  const tempTags = [...tags.value];
-  const index = tempTags.indexOf(value);
+const add = (value, isOnly = false) => {
+  let tempTags = [...tags.value];
 
-  if (index === -1) {
-    emit("update:modelValue", [...tags.value, value]);
+  // 既に登録されているかどうか
+  const index = tempTags.indexOf(value);
+  if (index !== -1) {
+    // 同じものが登録されているのでそのタグをremoveする。onlyチェックは不要
+    tempTags = [...tempTags.filter((i) => i !== value)];
   } else {
-    emit("update:modelValue", [...tags.value.filter((i) => i !== value)]);
+    // onlyがaddされた場合、tagsからonly:trueを除外する。
+    if (isOnly === true) {
+      const onlyTags = shortcuts.value
+        .filter((i) => i?.only === true)
+        .map((i) => i.searchName);
+
+      tempTags = removeOnlyTag(tempTags, onlyTags);
+    }
+    // 新しいタグを追加する
+    tempTags.push(value);
   }
+
+  emit("update:modelValue", tempTags);
 };
 
-const selected = computed(() => (arg) => {
-  return Object.values(tags.value).includes(arg) ? "primary" : "";
+const removeOnlyTag = (arr1, arr2) => {
+  const set2 = new Set(arr2);
+  return arr1.filter((element) => !set2.has(element));
+};
+
+const selected = computed(() => (arg, isOnly) => {
+  return Object.values(tags.value).includes(arg)
+    ? isOnly
+      ? "warning"
+      : "primary"
+    : isOnly
+    ? "secondary"
+    : "";
 });
 
 const tagsJson = computed(() => {

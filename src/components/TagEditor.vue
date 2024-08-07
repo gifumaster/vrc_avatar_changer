@@ -17,12 +17,16 @@
           density="compact"
           class="mx-2"
         />
+        <v-switch v-model="newTag.only" label="only" color="primary"></v-switch>
         <v-btn @click="addTag" color="primary">追加</v-btn>
       </div>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       <ul class="d-flex flex-wrap">
         <li v-for="(tag, index) in tags" :key="index">
-          <span>{{ tag.name }} / {{ tag.searchName }}</span>
+          <span
+            >{{ tag?.only ? "*" : "" }} {{ tag.name }} /
+            {{ tag.searchName }}</span
+          >
           <v-btn color="red" @click="removeTag(index)">削除</v-btn>
         </li>
       </ul>
@@ -38,6 +42,7 @@ export default {
     const newTag = ref({
       name: "",
       searchName: "",
+      only: false,
     });
 
     const tags = ref([]);
@@ -74,6 +79,7 @@ export default {
       tags.value.push({ ...newTag.value });
       newTag.value.name = "";
       newTag.value.searchName = "";
+      newTag.value.only = false;
       errorMessage.value = "";
       saveTags();
     };
@@ -90,7 +96,12 @@ export default {
     const loadTags = () => {
       const savedTags = localStorage.getItem("tags");
       if (savedTags) {
-        tags.value = JSON.parse(savedTags);
+        tags.value = JSON.parse(savedTags).sort((a, b) => {
+          if (a.only === b.only) {
+            return 0;
+          }
+          return a.only ? -1 : 1;
+        });
       }
     };
 
@@ -98,10 +109,10 @@ export default {
       loadTags();
       if (tags.value.length === 0) {
         tags.value = [
-          { name: "春", searchName: "Spring" },
-          { name: "夏", searchName: "Summer" },
-          { name: "秋", searchName: "Fall" },
-          { name: "冬", searchName: "Winter" },
+          { name: "春", searchName: "Spring", only: false },
+          { name: "夏", searchName: "Summer", only: false },
+          { name: "秋", searchName: "Fall", only: false },
+          { name: "冬", searchName: "Winter", only: false },
         ];
         saveTags();
       }
