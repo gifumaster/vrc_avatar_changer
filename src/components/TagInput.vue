@@ -27,7 +27,7 @@ const shortcuts = ref([]);
 
 const loadTags = () => {
   const savedTags = localStorage.getItem("tags");
-  const list = JSON.parse(savedTags);
+  const list = JSON.parse(savedTags) ?? [];
 
   // only:true -> falseの順でsortしなおす
   shortcuts.value = list.sort((a, b) => {
