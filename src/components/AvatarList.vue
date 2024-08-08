@@ -208,7 +208,7 @@ const handleGetAvatar = async () => {
   let temp = [];
   disableFetch.value = true;
 
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 10; i++) {
     //
     const result = await ipcRenderer.invoke("GetAvatarList", {
       authToken: authToken.value,
@@ -221,10 +221,10 @@ const handleGetAvatar = async () => {
     }
     temp = temp.concat(result);
 
-    if (result.length < 60) {
+    if (result.length < 100) {
       break;
     }
-    await sleep(300);
+    await sleep(1000);
   }
   localStorage.setItem("avatarList", JSON.stringify(temp));
   list.value = temp;

@@ -128,8 +128,8 @@ export async function twofa_vrc(authToken, num) {
 export async function handleGetAvatarList(_event, dto) {
   const api_base = "https://api.vrchat.cloud/api/1";
   const endpoint = "/avatars";
-  const offset = 60 * dto.offsetMultiply;
-  const url = `${api_base}${endpoint}?&releaseStatus=all&organization=vrchat&sort=updated&order=descending&user=me&n=60&offset=${offset}`;
+  const offset = 100 * dto.offsetMultiply;
+  const url = `${api_base}${endpoint}?&releaseStatus=all&organization=vrchat&sort=updated&order=descending&user=me&n=100&offset=${offset}`;
 
   const response = await fetch(url, {
     method: "GET",
